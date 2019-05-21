@@ -4,5 +4,5 @@ SPDX-License-Identifier: Apache-2.0
 
 'use strict';
 
-const cpcontract = require('./lib/papercontract.js');
-module.exports.contracts = [cpcontract];
+const bookstorecontract = require('./lib/bookstorecontract.js');
+module.exports.contracts = [bookstorecontract];
