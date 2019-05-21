@@ -70,6 +70,13 @@ class BookStoreContract extends Contract {
 
         const hash = content; //TODO: get a hash and make sure there are no books already with this hash
 
+        let bookKey = Book.makeKey([isbn]);
+        let book = await ctx.bookList.getBook(bookKey);
+
+        if(book != null){
+            throw new Error('The book ' + isbn + ' already exists in the book store');
+        }
+
         // create an instance of the book
         let book = Book.createInstance(isbn, publisher, title, author, cost, content, category);
 
@@ -101,6 +108,10 @@ class BookStoreContract extends Contract {
         let bookKey = Book.makeKey([isbn]);
         let book = await ctx.bookList.getBook(bookKey);
 
+        if(book == null){
+            throw new Error('Book ' + isbn + ' does not exist');
+        }
+
         // Validate that current owner is still the publisher
         if (book.getOwner() !== book.publisher) {
             throw new Error('Book ' + isbn + ' is not owned by the bookstore anymore');
@@ -125,14 +136,6 @@ class BookStoreContract extends Contract {
         return book.toBuffer();
     }
 
-    async what(ctx){
-
-        console.dir(ctx.clientIdentity);
-        let json = {
-        }
-        return Buffer.from(JSON.stringify(json));
-    }
-
     /**
      * Read book (get it's contents)
      *
@@ -147,6 +150,10 @@ class BookStoreContract extends Contract {
         let bookKey = Book.makeKey([isbn]);
 
         let book = await ctx.bookList.getBook(bookKey);
+
+        if(book == null){
+            throw new Error('Book ' + isbn + ' does not exist');
+        }
 
         // We could check here that the user cannot download it more than once
         // if (book.isRead()) {
