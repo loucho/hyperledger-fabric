@@ -65,10 +65,6 @@ async function main() {
     // buy book
     console.log('Submit book buy transaction.');
 
-    const whatever = await contract.submitTransaction('what');
-
-    console.log(Buffer.from(JSON.parse(whatever)));
-
     const buyResponse = await contract.submitTransaction('buy', '978-3-16-148410-0');
 
     // process response

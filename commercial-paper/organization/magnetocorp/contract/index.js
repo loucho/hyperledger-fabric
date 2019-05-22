@@ -6,4 +6,4 @@ SPDX-License-Identifier: Apache-2.0
 
 const bookstorecontract = require('./lib/bookstorecontract.js');
 const cpcontract = require('./lib/papercontract.js');
-module.exports.contracts = [bookstorecontract, cpcontract];
+module.exports.contracts = [bookstorecontract];

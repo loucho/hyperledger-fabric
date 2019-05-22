@@ -49,7 +49,7 @@ class BookStoreContract extends Contract {
     async instantiate(ctx) {
         // No implementation required with this example
         // It could be where data migration is performed, if necessary
-        console.log('Instantiate the contract');
+        console.log('Instantiate the book store contract');
     }
 
     /**
@@ -71,14 +71,17 @@ class BookStoreContract extends Contract {
         const hash = content; //TODO: get a hash and make sure there are no books already with this hash
 
         let bookKey = Book.makeKey([isbn]);
-        let book = await ctx.bookList.getBook(bookKey);
+        let book;
+        try{
+            book = await ctx.bookList.getBook(bookKey);
+        } catch(e) {}
 
         if(book != null){
             throw new Error('The book ' + isbn + ' already exists in the book store');
         }
 
         // create an instance of the book
-        let book = Book.createInstance(isbn, publisher, title, author, cost, content, category);
+        book = Book.createInstance(isbn, publisher, title, author, cost, content, category);
 
         // Smart contract, rather than book, moves book into PUBLISHED state
         book.setPublished();
